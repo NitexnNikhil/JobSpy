@@ -1,31 +1,27 @@
-import csv
+import pandas as pd
+from jobspy import scrape_jobs   
 
-from jobspy import scrape_jobs
-
-
-def main() -> None:
-    # Edit these values to match the job search you want to run.
+def main():
     jobs = scrape_jobs(
         site_name=["linkedin"],
         search_term="software engineer",
         location="Bengaluru, Karnataka",
         results_wanted=5,
-        hours_old=24,
-        country_indeed="India",
+        hours_old=72,
         verbose=2,
     )
 
-    print(f"Found {len(jobs)} jobs")
-    print(jobs.head())
+    print(f"Found {jobs['job_count']} jobs")
 
-    if not jobs.empty:
-        jobs.to_csv(
-            "jobs.csv",
-            quoting=csv.QUOTE_NONNUMERIC,
-            escapechar="\\",
-            index=False,
-        )
-        print("Saved results to jobs.csv")
+    df = pd.DataFrame(jobs["jobs"])
+    print(df.head())
+
+    # Optional: save files
+    df.to_csv("jobs.csv", index=False)
+
+    import json
+    with open("jobs.json", "w") as f:
+        json.dump(jobs, f, indent=2)
 
 
 if __name__ == "__main__":
