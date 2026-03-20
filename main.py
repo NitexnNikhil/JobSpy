@@ -9,7 +9,7 @@ def main() -> None:
         site_name=["linkedin"],
         search_term="software engineer",
         location="Bengaluru, Karnataka",
-        results_wanted=500,
+        results_wanted=5,
         hours_old=24,
         country_indeed="India",
         verbose=2,
